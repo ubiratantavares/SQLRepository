@@ -1,0 +1,99 @@
+create database importex;
+
+use importex;
+
+create table cliente (
+	cpf char(11) not null,
+	nome varchar(50),
+	endereco varchar(60),
+	cartaofidelidade integer, 
+	primary key (cpf)
+);
+
+
+create table cliente_telefone (
+	cpfCliente char(11) not null,
+	telefone char(10) not null,
+	primary key (cpfCliente, telefone),
+	foreign key (cpfCliente) references cliente(cpf)
+);
+
+		
+
+create table pedido (
+	numero integer not null,
+	data date,
+	valor decimal(5,2), 
+	cpfCliente char(11) not null,
+	primary key (numero),
+	foreign key (cpfCliente) references cliente(cpf)
+);
+
+
+create table produto (
+	codigo integer not null,
+	descricao varchar(200),
+	valorunitario decimal(3,2),
+	estoque integer, 
+	primary key (codigo)
+);
+
+
+create table venda (
+	numero integer not null,
+	data date,
+	valor decimal(5,2), 
+	notafiscal integer,
+	numeroPedido integer not null,
+	primary key (numero),
+	foreign key (numeroPedido) references pedido(numero)
+);
+
+create table fornecedor (
+	codigo integer not null,
+	razaosocial varchar(40),
+	CNPJ char(18), 
+	paisOrigem varchar(30),
+	primary key (codigo)
+);
+
+
+create table fornecedor_telefone (
+	codigoFornecedor integer not null,
+	telefone char(10) not null,
+	primary key (codigoFornecedor, telefone),
+	foreign key (codigoFornecedor) references fornecedor(codigo)
+);	
+
+create table fornecedor_endereco (
+	codigoFornecedor integer not null,
+	endereco varchar(60) not null,
+	primary key (codigoFornecedor, endereco),
+	foreign key (codigoFornecedor) references fornecedor(codigo)
+);
+
+
+create table relaciona (
+	numeroPedido integer not null,
+	codigoProduto integer not null,
+	quantidade integer,
+	primary key (numeroPedido, codigoProduto),
+	foreign key (numeroPedido) references pedido(numero),
+	foreign key (codigoProduto) references produto(codigo)
+);
+
+create table fornecido (
+	codigoFornecedor integer not null,
+	codigoProduto integer not null,
+	primary key (codigoFornecedor, codigoProduto),
+	foreign key (codigoFornecedor) references fornecedor(codigo),
+	foreign key (codigoProduto) references produto(codigo)
+);
+
+
+
+
+
+
+
+	

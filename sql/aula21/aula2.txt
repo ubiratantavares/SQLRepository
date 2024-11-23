@@ -1,0 +1,130 @@
+
+professor Sergio B.
+
+-- criaçao de procedures e function --- 
+
+-- procedures sao rotinas que nao retornam valor , simplesmente elas executam uma açao.
+
+-- sao funcoes que executam uma e retornam um valor de resposta.
+
+-- voce vai usar esse retorno em uma outra rotina.
+
+
+create database aula2;
+
+use aula2;
+
+
+create table cliente(
+idcliente 	int 		primary key auto_increment,
+nome 		varchar(40) 	not null,
+email 		varchar(40) 	unique);
+
+desc cliente;
+
+show tables;
+
+insert into cliente values(null,'Marcelo' , 'Mar@gmail.com');
+insert into cliente values(null,'Luana' , 'Lu@gmail.com');
+insert into cliente values(null,'Vinicius' , 'Vini@gmail.com');
+insert into cliente values(null,'Sergio' , 'Serginho@gmail.com');
+insert into cliente values(null,'Marcelo' , 'Marcelo@gmail.com');
+
+
+
+
+-- buscando os dados da tabela 
+
+select * from cliente;
+
+-- 
+-- where (quando) 
+
+select * from cliente where nome = 'Marcelo';
+
+
+
+-- Relacionamento entre tabelas 1P1;
+-- cardinalidade do relacionamento 1 para 1; 
+
+
+
+drop table cliente;
+
+create table cliente( 
+idcliente 	int 		primary key auto_increment,
+nome 		varchar(40) 	not null,
+email 		varchar(40) 	unique,
+sexo            enum('m','f'));
+
+desc cliente;
+
+
+
+
+
+
+drop table endereco;
+create table endereco(
+idendereco  	int 		primary key auto_increment,
+bairro 		varchar(40) 	not null,
+cidade 		varchar(40) 	not null,
+id_cliente  	int 		unique );
+
+
+
+desc cliente;
+desc endereco;
+
+alter table endereco add constraint fk_cliente_endereco
+foreign key(id_cliente) references cliente(idcliente);
+
+
+desc cliente;
+desc endereco;
+
+
+
+insert into cliente values(null,'Marcelo','Marks@gmail.com','m');
+
+select * from cliente;
+
+
+insert into endereco values(null, 'Nova campinha' , 'Caxias', 1);
+
+
+select * from endereco;
+
+
+create table bens(
+idbens  	int 		primary key auto_increment,
+bem 		varchar(40) 	not null,
+tipo            enum('imovel','movel'),
+valor           float not null,
+id_cliente      int  not null);
+
+
+alter table bens add constraint fk_cliente_bens
+foreign key(id_cliente) references cliente(idcliente);
+
+
+insert into  bens values(null, 'Havainna','movel', 12 , 1);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

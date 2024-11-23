@@ -1,0 +1,42 @@
+create database projeto0002;
+
+use projeto0002;
+
+create table empresa (
+	idEmpresa int(10) primary key auto_increment not null,
+	nome varchar(80) unique not null,
+	ddd varchar(3) not null,
+	telefone varchar(10) not null
+);
+
+create table cliente (
+	idCliente int(10) primary key auto_increment not null,
+	nome varchar(80) not null,
+	ddd varchar(3) not null,
+	telefone varchar(10) not null,
+	endereco varchar(80),
+	idEmpresa int(10) not null,
+	foreign key(idEmpresa) references empresa(idEmpresa)
+	on delete restrict
+	on update cascade
+);
+
+create table servico (
+	idServico int(10) primary key auto_increment not null,
+	descricao varchar(80) not null,
+	valor decimal(10,2) not null,
+	data date not null,
+	idCliente int(10) not null,
+	foreign key(idCliente) references cliente(idCliente)
+	on delete restrict
+	on update cascade	
+);
+
+
+show tables;
+
+desc empresa;
+
+desc cliente;
+
+desc servico;

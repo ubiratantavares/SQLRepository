@@ -1,0 +1,218 @@
+CRIANDO UM BANCO DE DADOS
+
+	create database BANCO;
+
+
+USANDO UM BANCO DE DADOS
+
+	use BANCO;
+
+
+CRIANDO TABELA
+
+	create table TABELA;
+
+
+LISTANDO BANCOS EXISTENTES
+
+	show databases;
+
+
+LISTANDO TABELAS EXISTENTES
+
+	show tables;
+
+
+LISTANDO A ESTRUTURA DE UMA TABELA
+
+	show columns from TABELA;
+
+
+LISTANDO INDICES DE UMA TABELA
+
+	show index from TABELA;
+
+
+REMOVENDO UM BANCO DE DADOS
+	
+	drop database BANCO;
+
+
+REMOVENDO UMA TABELA
+
+	drop table TABELA;
+
+
+ALTERANDO TABELAS
+
+	alter table TABELA add column (ATRIBUTO TIPO); // ADICIONANDO UMA COLUNA
+	alter table TABELA drop column ATIBUTO;        // REMOVENDO UMA COLUNA
+	alter table TABELA add index INDICE(ATRIBUTOS); // ADICIONANDO UM INDICE
+	alter table TABELA drop index INDICE;   // REMOVENDO UM INDICE
+
+
+INSERINDO DADOS NUMA TABELA
+
+	insert into TABELA values (VALOR1, ... VALORN);
+	insert into TABELA set ATRIBUTO1 = VALOR1, ..., ATRIBUTON = VALORN;
+
+
+SELECIONANDO REGISTROS
+
+	select last_insert_id(); // RETORNA O ULTIMO VALOR GERADO PELO ATRIBUTO AUTO-INCREMENT
+
+	select EXPRESSAO;
+
+	select * from TABELA;
+
+	select * from cliente;
+
+	select VALORES from TABELAS where CONDIÇÃO;
+
+	select * from TABELA where CONDIÇÃO;
+
+	select nome from cliente where nome like '%Pereira';
+
+	select * from T1, T2; // Produto Cartesiano
+
+	select * from T1, T2 where b = d; // Junção
+
+	select nome, numconta 
+	from cliente, possui 
+	where id=idcliente;
+
+	select nome, numconta // Alternativa
+	from cliente
+	inner join possui 
+	on id=idcliente;
+
+
+	select nome, numconta, saldo 
+	from cliente, possui, conta 
+	where id=idcliente 
+	and numconta =  numero;
+
+
+	select nome, numconta, saldo
+	from cliente, possui, conta
+	where cliente.id = possui.idcliente
+	and possui.numconta = conta.numero;
+
+
+	select nome, numconta, saldo     // Alternativa
+	from cliente
+	inner join possui on id = idcliente
+	inner join conta on numconta=numero
+
+
+	select ATRIBUTOS from TABELA1, TABELA2 // Junção Interna
+	where CONDIÇÃO;
+
+	select ATRIBUTOS from TABELA1     // Alternativa
+	inner join TABELA2 on CONDIÇÃO;   
+
+
+	select ATRIBUTOS from TABELA1       // Junção Externa
+	left join TABELA2 on CONDIÇÃO
+
+  
+	select ATRIBUTOS from TABELA1     // Junção Externa
+	right join TABELA2 on CONDIÇÃO;
+
+
+
+	select c1.nome, c2.nome   	// Auto-Junção
+	from cliente c1, cliente c2
+	where c1.endereco = c2.endereco
+	and c1.nome < c2.nome           // < => ordem alfabetica
+
+
+SELEÇÃO COM ORDENAÇÃO
+
+	
+	select nome, endereco 
+	from cliente 
+	order by nome;
+
+	select nome, endereco 
+	from cliente 
+	where endereco like 'Rua%'
+	order by endereco;
+
+
+SELEÇÃO COM AGRUPAMENTO
+
+	select nome, numconta 
+	from cliente, possui
+	where id = idcliente
+	group by nome;
+
+
+	select nome, count(*) as qtd 
+	from cliente, possui 
+	where id=idcliente
+	group by nome;
+
+ 
+	select nome, avg(saldo) as media
+	from cliente, possui, conta
+	where id=idcliente and numconta=numero
+	group by nome;
+
+
+	count(*), avg(atrib), max(atrib), min(atrib), sum(atrib)
+
+
+
+	select count(*) from T;
+
+	select avg(saldo) from conta;
+
+
+SELECIONANDO GRUPOS COM Having
+
+	select nome, avg(saldo)
+	from cliente, possui, conta
+	where id=idcliente and numconta = numero
+	group by nome 
+	having count(*) > 1;
+
+
+	select distinct a from T;
+
+	select a from T       // Alternativa
+	group by a;
+
+	select saldo from conta
+	where saldo > 0
+	limit 2;
+
+
+SELECT COM INSERT
+
+	insert into tabela (atrib1, …, atribN)
+	select expr1, …, exprN from...
+
+
+	create table cliente_saldo (nome varchar(50), saldo decimal (16, 2));
+		
+	insert into cliente_saldo (nome, saldo)
+	select nome, avg(saldo)
+	from cliente, possui, conta
+	where id = idcliente and numconta = numero 
+	group by nome;
+
+	select * from cliente_saldo;
+
+
+	
+REMOVENDO REGISTROS DE UMA TABELA
+
+	delete from TABELA; // REMOVE TODAS AS LINHAS DA TABELA
+	delete from TABELA where CONDIÇÃO;
+
+
+ATUALIZANDO DADOS NUMA TABELA
+
+	update TABELA set ATRIBUTO1 = VALOR1, ..., ATRIBUTON = VALORN;
+	update TABELA set ATRIBUTO1 = VALOR1, ..., ATRIBUTON = VALORN where CONDIÇÃO;

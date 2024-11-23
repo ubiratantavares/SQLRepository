@@ -1,0 +1,3 @@
+﻿select fnumero, datavenc, valor
+from carne , fatura
+where num = cnumero;

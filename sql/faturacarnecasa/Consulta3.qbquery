@@ -1,0 +1,5 @@
+﻿select count(fnumero)
+from carne , fatura
+where num = cnumero
+and fnumero >= 49
+and fnumero <= 52;

@@ -1,0 +1,4 @@
+﻿select nomecompleto, diasemana, horario
+from grupo g, pessoa p, pertence pe
+where g.gcodigo = pe.codgrupo
+and p.pcodigo = pe.codpessoa;

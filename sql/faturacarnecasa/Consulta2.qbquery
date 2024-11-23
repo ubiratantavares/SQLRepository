@@ -1,0 +1,4 @@
+﻿select sum(valor)
+from carne, fatura
+where cnumero = num
+and num in (1, 2, 3, 4, 5);

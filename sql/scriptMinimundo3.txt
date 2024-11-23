@@ -1,0 +1,87 @@
+create database autorun;
+
+use autorun;
+
+create table cliente (
+	cpf char(11) not null,
+	nome varchar(40),
+	endereco varchar(50),
+	telefone char(10),
+	primary key (cpf)
+);
+
+
+create table mecanico (
+	matricula integer not null,
+	nome varchar(40),
+	telefone char(10),
+	salario decimal(5,2),
+	primary key (matricula)
+	
+);
+
+
+create table orcamento (
+	numero integer not null,
+	valor decimal(4,2),
+	data date,
+	descricao varchar(200),
+	cpfCliente char(11) not null unique,
+	matriculaMecanico integer not null unique,
+	primary key (numero),
+	foreign key (cpfCliente) references cliente(cpf),
+	foreign key (matriculaMecanico) references mecanico(matricula)
+);
+
+
+
+create table servico (
+	numero integer not null,
+	valor decimal(4,2),
+	data date,
+	descricao varchar(200),
+	notafiscal integer,
+	datapagamento date,
+	numeroOrcamento integer unique,
+	cpfCliente char(11) unique,
+	primary key (numero),
+	foreign key (cpfCliente) references cliente(Cpf),
+	foreign key (numeroOrcamento) references orcamento(numero)	
+);
+
+create table peca (
+	codigo integer not null,
+	nome varchar(30), 
+	quantidade integer,
+	valorUnitario decimal(3,2),
+	fabricante varchar(20),
+	primary key (codigo)
+);
+
+create table executa (
+	numeroServico integer not null,
+	matricula integer not null,
+	primary key (numeroServico, matricula),
+	foreign key (numeroServico) references servico(numero),
+	foreign key (matricula) references mecanico(matricula)
+
+);
+
+create table usa (
+	numeroServico integer not null,
+	codigoPeca integer not null,
+	primary key (numeroServico, codigoPeca),
+	foreign key (numeroServico) references servico(numero),
+	foreign key (codigoPeca) references peca(codigo)
+);
+
+create table lista (
+	numeroOrcamento integer not null,
+	codigoPeca integer not null,
+	primary key (numeroOrcamento, codigoPeca),
+	foreign key (numeroOrcamento) references orcamento(numero),
+	foreign key (codigoPeca) references peca(codigo)
+);
+
+
+	
